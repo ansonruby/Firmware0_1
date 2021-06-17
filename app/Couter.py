@@ -37,58 +37,32 @@ g2zdk.9a97ba14cb334d71cceffc84244f5d9c
 def add_user_counter(usuario):
     s = usuario.partition(".")
     ID =s[0]
-    #print ID
+    #print IDPrueba
     #ID='12dsad'
     Respuesta = Verificar_ID(ID)
     #print Respuesta
     if Respuesta == -1:
         Comando = usuario.strip('\n')
         Escrivir_Archivo(Comando,0)
-        print 'Usuario agregado'
-    else:
-        print 'ya existe'
+        #print 'Usuario agregado'
+    #else:
+    #    print 'ya existe'
 
 
 def Resolver_Comando_Counter():
 
     global Comando_Antes
     Comando = Leer_Archivo(48)
-    #print Comando
-    #print str(len(Comando))
-    #print Comando.count("\n")
-
-
     if len(Comando) >= 1 :
         Usuarios = Comando.split("\n")
-        #print len(Usuarios)
-        #print Usuarios[0]
-        #print Usuarios[1]
-
         for linea in Usuarios:
             s=linea.rstrip('\n')
-            #print s
             if len(s) > 0:
                 add_user_counter(s)
 
+    Borrar(48)
 
 
-
-        """
-        print 'Nuevo: ' + Comando
-        s = Comando.partition(".")
-        ID =s[0]
-        #print ID
-        #ID='12dsad'
-        Respuesta = Verificar_ID(ID)
-        #print Respuesta
-        if Respuesta == -1:
-            Comando = Comando.strip('\n')
-            Escrivir_Archivo(Comando,0)
-            print 'Usuario agregado'
-        else:
-            print 'ya existe'
-        Borrar(48)
-        """
 
 
 """
@@ -111,19 +85,18 @@ print 'Texto: ' + r.text
 
 time.sleep(1.05)
 """
-print 'listo'
-Resolver_Comando_Counter()
+#print 'listo'
+#Resolver_Comando_Counter()
 
 #print Get_Post_try_catch('POST', 'http://192.168.0.14/Prueba/new_user.php', CE_datos, '', 2)
 #print Get_Post_try_catch('POST', 'http://192.168.0.14/api/counter/new_user/index.php', CE_datos, '', 2)
 
 
-"""
-while 1:
+
+#while 1:
 
     #---------------------------------------------------------
     #  Proceso 0: Tiempo de espera para disminuir proceso
     #---------------------------------------------------------
-    time.sleep(1.05)
-    Resolver_Comando_Counter()
-"""
+    #time.sleep(1.05)
+    #Resolver_Comando_Counter()

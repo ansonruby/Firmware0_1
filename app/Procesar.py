@@ -9,6 +9,8 @@ import lib.Control_Torniquete
 import lib.Control_Switch
 import lib.Seguridad
 import lib.Generar_PIN
+import Couter
+
 import datetime
 import time
 import commands
@@ -1062,3 +1064,8 @@ while 1:
         elif Sta_Ins.find("OK") != - 1:
             #print 'web'
             Resolver_Comando_Web()
+
+    #---------------------------------------------------------
+    # Proceso 10: panel web
+    #---------------------------------------------------------
+    Couter.Resolver_Comando_Counter()

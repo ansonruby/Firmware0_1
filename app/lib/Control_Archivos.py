@@ -77,7 +77,7 @@ N_A_Procesos_web	    ='/home/pi/Firmware/db/Status/Procesos_web.txt'
 N_A_Status_Ins_web	    ='/home/pi/Firmware/Web/Install/Status_Install.txt'
 
 #-------        Control Counter de entrada     ----------
-N_A_Con_Counter         ='/var/www/html/Prueba/Dato_get.txt'
+N_A_Con_Counter         ='/var/www/html/api/Dato_get.txt'
 N_A_IP_Counter         ='/home/pi/Firmware/db/Config/link/IP_Counter.txt'
 
 
