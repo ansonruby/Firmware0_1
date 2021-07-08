@@ -18,3 +18,12 @@ def Hora_Actual():
 
 def T_Actual():
 	return str(int(time.time()*1000.0))
+
+def Time_add_seg(Tiempo_mas):
+	return time.time() + Tiempo_mas
+
+def Time_add_min(Tiempo_mas):
+	return time.time() + Tiempo_mas*60
+
+def Time_add_hora(Tiempo_mas):
+	return time.time() + Tiempo_mas*(60*60)

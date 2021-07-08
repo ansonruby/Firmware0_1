@@ -1,21 +1,26 @@
 
 # Librerias creadas para multi procesos o hilos -------------
+import datetime
+import time
+import commands
+import sys
+import socket
+
 
 import lib.Control_Web
 import lib.Control_Archivos
 import lib.Control_Fecha
 import lib.Control_Ethernet
 import lib.Control_Torniquete
-import lib.Control_Switch
+#import lib.Control_Switch
 import lib.Seguridad
 import lib.Generar_PIN
 import Couter
+import Enviar_Autorizados
+import Boton_Salida
+import IR
 
-import datetime
-import time
-import commands
-import sys
-import socket
+
 
 # definiciones para el aplicativo principal -----------------
 
@@ -61,8 +66,8 @@ MD5                     = lib.Seguridad.MD5
 
 Generar_PIN             = lib.Generar_PIN.Generador_Pines
 
-Switch                  = lib.Control_Switch.Get_Switch
-Borrar_BD               = lib.Control_Switch.Borrar_BD
+#Switch                  = lib.Control_Switch.Get_Switch
+#Borrar_BD               = lib.Control_Switch.Borrar_BD
 
 
 # inicio de variable	--------------------------------------
@@ -335,8 +340,8 @@ def Decision_Torniquete (Res, QR, ID2, Ti,Qr_Te, I_N_S ):
     Res=Res.rstrip('\r')#se coloca para pruebas
     #c
     if Res == 'Access granted-E':
-        #if PP_Mensajes:
-        print "Entrada, estado 3"
+        if PP_Mensajes:
+            print "Entrada, estado 3"
         if Direc_Torniquete == 'D':
             Cambio_Estado_Led('4')
             Salir()
@@ -358,8 +363,8 @@ def Decision_Torniquete (Res, QR, ID2, Ti,Qr_Te, I_N_S ):
 
 
     elif Res == 'Access granted-S':
-        #if PP_Mensajes:
-        print "Salida, estado 4"
+        if PP_Mensajes:
+            print "Salida, estado 4"
         if Direc_Torniquete == 'D':
             Cambio_Estado_Led('3')
             Entrar()
@@ -383,7 +388,7 @@ def Decision_Torniquete (Res, QR, ID2, Ti,Qr_Te, I_N_S ):
     else :
         if PP_Mensajes:
             print "No Esta  activo"
-        print "Sin Acceso o rut equivocado estado 5 0 6"
+        #print "Sin Acceso o rut equivocado estado 5 0 6"
 
         Cambio_Estado_Led('6')  # realisa un tiempo de visualisacion
 
@@ -413,6 +418,7 @@ def Respuesta_Sin_Internet(QR_RUT, T_A,  IDQ_Encrip, QR):
         #IDQ_Encrip, Resp = Estado_Usuario(IDQ_Encrip,1)
         #print '----- resolviendo respuesta'
         #print 'Resp:'+ Resp
+
         #------------------------------------------------------------
         #               NUEVO FORMATO CON TINPO INCIO Y FIN
         #------------------------------------------------------------
@@ -420,7 +426,21 @@ def Respuesta_Sin_Internet(QR_RUT, T_A,  IDQ_Encrip, QR):
         if PP_Mensajes:
             print puntos
 
-        if puntos == 3:
+        if puntos == 1:
+            IDQ_Encrip, Resp = Estado_Usuario(IDQ_Encrip,1)
+            if PP_Mensajes:
+                print '-----Formato 1: resolviendo respuesta '
+                print 'Resp:'+ Resp
+            Decision_Torniquete (Resp,QR,"",T_A,'1','1')
+
+        elif puntos == 2:
+            IDQ_Encrip, Resp = Estado_Usuario(IDQ_Encrip,1)
+            if PP_Mensajes:
+                print '-----Formato 2: resolviendo respuesta '
+                print 'Resp:'+ Resp
+            Decision_Torniquete (Resp,QR,"",T_A,'1','1')
+
+        elif puntos == 3:
             #print 'QR:'+ QR
             SQR = QR.split('.')
             #print SQR[0]
@@ -548,7 +568,6 @@ def Decision(QR_RUT):
     if PP_Mensajes:
         print 'Nuevo------------------------------------'
         print 'Tiempo: ', "%s" % T_A
-
     # Prepararacion de informacion para tratamiento
 
     if QR_RUT == 'RUT':
@@ -584,30 +603,30 @@ def Decision(QR_RUT):
         Escrivir_Estados('1',6)# activar sonido por 500*2
         R_Q = Get_QR_RUT('QR')
         #print R_Q
-        s =R_Q.partition(".")
-        QRT = s[0]
-        IDQ = s[2]
+        puntos = R_Q.count(".")
+        if PP_Mensajes:
+            print puntos
+        if puntos == 0:
+            IDQ = ''
+            QRT = ''
+        else:
+            s =R_Q.split(".")
+            QRT = s[0]
+            IDQ = s[1]
+
+        #TDQ = s[2]
         #print 'hola---'
+        #print QRT
         #print IDQ
+        #print TDQ
+
         #if IDQ.find(".") == -1:
         ID_Tratado = IDQ
-        """
-        else:
-            if PP_Mensajes:
-                print 'Invitacion'
-            #tratamiento de tatos aqui o mas adentro pero solo si no hay inthernet
-            s =IDQ.partition(".")
-            ID_Tratado = s[0]
-            if PP_Mensajes:
-                print 'separacion'
-                print 'IDQ:' + ID_Tratado
-        """
-
-
         Envio_Dato = QRT
         Estado_RQ = 1
         Dato2 = R_Q
         Dato1 = ''
+
     if PP_Mensajes:
         print QR_RUT+': '+ R_Q
 
@@ -644,7 +663,7 @@ def Decision(QR_RUT):
         Respuesta_Sin_Internet(QR_RUT,T_A, ID_Tratado, Dato2)
 
         #Intento de actualizar usuarios
-        Ping_Intento_Enviar_Usuarios_Autotizados()
+        #Ping_Intento_Enviar_Usuarios_Autotizados()
 
 
 def  Procedimiento_Actualizar_Firmware():
@@ -918,9 +937,10 @@ if (Leer_Estado(47)).find("OK") != - 1:
     commands.getoutput('sudo chown -R pi /var/www/html')
 
 
+print 'while'
 
 while 1:
-    #Hay_Internet = 1
+    Hay_Internet = 1
     #------------------if PP_Mensajes:---------------------------------------
     #  Proceso 0: Tiempo de espera para disminuir proceso
     #---------------------------------------------------------
@@ -961,6 +981,11 @@ while 1:
     #---------------------------------------------------------
     # Proceso 5: enviar usario autorizados sin internet, cuando hay internet y actualizar si no se pudo
     #---------------------------------------------------------
+    # cada dos horas enviar los Usuarios
+
+    Enviar_Autorizados.Proceso_envio_Usuarios()
+
+    """
     if Hay_Internet == 0 and Estado_Internet == 0:
         Estado_Internet =1;
         # hay internet y se verifico
@@ -978,6 +1003,7 @@ while 1:
             else:
                 if PP_Mensajes:
                     print 'no se apodifo se espera otra opertunidad'
+    """
     #---------------------------------------------------------
     # Proceso 6: Actualizacion de firmware
     #---------------------------------------------------------
@@ -1002,70 +1028,18 @@ while 1:
     #---------------------------------------------------------
     # Proceso 9: panel web
     #---------------------------------------------------------
-    Sta_Ins= Leer_Estado(47)
-    #print Sta_Ins
-    #print len(Sta_Ins)
-    if  len(Sta_Ins) != 0:
-        if  Sta_Ins.find("NO") != - 1:
-            if Leer_Estado(20) == '0':
-                #print 'no hay actualizaciones pendientes'
-                #print 'revizar otras cosas.'
-
-                Formware = Leer_Archivo(29)
-                Firm = Formware.split('\n')
-                #print Firm[0].find("Firmware1_8")
-                if Firm[0].find("Firmware1_9") != -1:
-                    #print 'firmware de instalacion tiempo sin ejcutar el sh'
-                    Tiem_de_activo = commands.getoutput('uptime -p')
-                    if Tiem_de_activo.find(",") != -1:
-                        Te = Tiem_de_activo.split(',')
-                        print Te[0]
-                        print Te[1]
-                        if Te[0].find("hours") != -1:
-
-                            apache2 = commands.getoutput('which apache2')
-                            php = commands.getoutput('which php')
-                            mysql = commands.getoutput('which mysql')
-                            #print apache2
-
-                            if len(apache2)>3 and len(php)>3 and len(mysql)>3:
-                                print 'Revisando Comandos web escrivir OK'
-                                Borrar(47)              #
-                                Escrivir_Estados('OK',47)   # Estado final de la instalacion
-                                #Resolver_Comando_Web()
-                            elif len(apache2) == 0 or len(php) == 0 or len(mysql) == 0:
-                                print 'NO hay nada Instalado reiniciar'
-                                print 'revisar estado de intalacion'
-                                #commands.getoutput('sudo reboot')
-
-                    else:
-                        #print Tiem_de_activo
-                        Te = Tiem_de_activo.split(' ')
-
-                        if int(Te[1]) >=5:
-                            #print 'revisar y reiniciar proque no se instalo'
-                            apache2 = commands.getoutput('which apache2')
-                            php = commands.getoutput('which php')
-                            mysql = commands.getoutput('which mysql')
-                            #print apache2
-
-                            if len(apache2)>3 and len(php)>3 and len(mysql)>3:
-                                #print 'Revisando Comandos web'
-                                #Resolver_Comando_Web()
-                                Borrar(47)              #
-                                Escrivir_Estados('OK',47)   # Estado final de la instalacion
-                            elif len(apache2) == 0 or len(php) == 0 or len(mysql) == 0:
-                                print 'NO hay nada Instalado reiniciar'
-                                print 'revisar estado de intalacion'
-                                Borrar(47)              #
-                                Escrivir_Estados('NO',47)   # Estado final de la instalacion
-                                commands.getoutput('sudo reboot')
-
-        elif Sta_Ins.find("OK") != - 1:
-            #print 'web'
-            Resolver_Comando_Web()
+    if (Leer_Estado(47)).find("OK") != - 1:     Resolver_Comando_Web()
 
     #---------------------------------------------------------
-    # Proceso 10: panel web
+    # Proceso 10: comunicacion con el counter
     #---------------------------------------------------------
     Couter.Resolver_Comando_Counter()
+
+    #---------------------------------------------------------
+    # Proceso 10: Boton salida
+    #---------------------------------------------------------
+    Boton_Salida.Eventos_Boton_Salida()
+    #---------------------------------------------------------
+    # Proceso 11: sensor IR y led de potencia
+    #---------------------------------------------------------
+    IR.Eventos_Boton_Salida()
