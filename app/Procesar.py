@@ -1038,8 +1038,8 @@ while 1:
     #---------------------------------------------------------
     # Proceso 10: Boton salida
     #---------------------------------------------------------
-    Boton_Salida.Eventos_Boton_Salida()
+    #Boton_Salida.Eventos_Boton_Salida()
     #---------------------------------------------------------
     # Proceso 11: sensor IR y led de potencia
     #---------------------------------------------------------
-    IR.Eventos_Boton_Salida()
+    IR.Eventos_IR()
