@@ -22,7 +22,7 @@ Leer_Lineas             = Ca.Leer_Lineas
 Borrar                  = Ca.Borrar_Archivo
 Link_servidor           = Ca.Mejor_Opcion_link
 Escrivir_nuevo          = Ca.Escrivir_nuevo
-Verificar_ID            = Ca.Verificar_ID
+Verificar_ID_Tipo_3     = Ca.Verificar_ID_Tipo_3
 
 #Get_Post_try_catch     =Ce.Get_Post_try_catch   #(peticion, CE_url, CE_datos, CE_cabeceras, tout):
 
@@ -32,21 +32,48 @@ g2yt1.6ebe76c9fb411be97b3b0d48b791a7c9
 gqyt3.3c7849bc28d281f187156af8ec4c882b
 g2zdk.9a97ba14cb334d71cceffc84244f5d9c
 """
-
+"""
+def Verificar_ID_Tipo_3(Pal): #mejorar por que podia pasa cualquiera
+    #global N_A_Servidor
+    #print Pal
+    archivo = open('/home/pi/Firmware/db/Data/Tabla_Servidor.txt', 'r')
+    archivo.seek(0)
+    for linea in archivo.readlines():
+        s=linea.rstrip('\n')
+        s=s.rstrip('\r')
+        #s2 =s.split(".")
+        #print 'ID: '+ s2[0] + ' RUT: '+s2[2]
+        #print  s
+        #Rut = ''#s2[0]
+        if 	s ==	Pal:
+            archivo.close()
+            return s2[0]
+    archivo.close()
+    return -1
+"""
 
 def add_user_counter(usuario):
-    s = usuario.partition(".")
-    ID =s[0]
+    s = usuario.split(".")
+    #ID =s[0]
+    #print s[0]
+    #print s[1]
+    #print s[2]
+    #print s[3]
+    #print s[4]
     #print IDPrueba
     #ID='12dsad'
-    Respuesta = Verificar_ID(ID)
+    ID = s[1] + '.' + s[2]
+
+    Respuesta = Verificar_ID_Tipo_3(ID)
     #print Respuesta
+
     if Respuesta == -1:
-        Comando = usuario.strip('\n')
-        Escrivir_Archivo(Comando,0)
+        #Comando = usuario.strip('\n')
+        Escrivir_Archivo(ID,0)
         #print 'Usuario agregado'
     #else:
     #    print 'ya existe'
+
 
 
 def Resolver_Comando_Counter():
@@ -58,12 +85,14 @@ def Resolver_Comando_Counter():
         for linea in Usuarios:
             s=linea.rstrip('\n')
             if len(s) > 0:
+                #print s
                 add_user_counter(s)
 
     Borrar(48)
 
 
 
+#Resolver_Comando_Counter()
 
 """
 def Nuevos_Usuarios_conter():

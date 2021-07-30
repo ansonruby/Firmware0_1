@@ -509,3 +509,48 @@ def PIN_Usado(ID1, PIN,Npines): #revicion de pines
 
 
         return 0
+
+
+
+def Verificar_ID_Tipo_3(Pal): #mejorar por que podia pasa cualquiera
+    global N_A_Servidor
+    #print Pal
+    archivo = open(N_A_Servidor, 'r')
+    archivo.seek(0)
+    for linea in archivo.readlines():
+        s=linea.rstrip('\n')
+        s=s.rstrip('\r')
+        #s2 =s.split(".")
+        #print 'ID: '+ s2[0] + ' RUT: '+s2[2]
+        #print  s
+        #Rut = ''#s2[0]
+        if 	s ==	Pal:
+            archivo.close()
+            return s
+    archivo.close()
+    return -1
+
+
+def Estado_Usuario_Tipo_3(Pal,P_I):
+
+    ID_1 = Verificar_ID_Tipo_3(Pal)
+    #N_veri = Verificar_acceso(ID_1) # cambiar para acesoss multiples
+    #print 'ID: '
+    #print ID_1
+    #print 'Veces: '
+    #print N_veri
+    """
+    if N_veri != 0:
+        if N_veri % 2 == 0	:	N_veri = 1 # Entrar
+        else				:	N_veri = 2 # Salir
+
+    if ID_1 == -1 and  N_veri == 0:					return ID_1, 'Denegado'		   #print 'NO existe'
+    if ID_1 != -1 and  N_veri == 0 or N_veri == 1:	return ID_1, 'Access granted-E'#print 'Entrada'
+    if ID_1 != -1 and  N_veri == 2:					return ID_1, 'Access granted-S'#print 'Salida'
+    """
+
+    #if ID_1 == -1 and  N_veri == 0:					return ID_1, 'Denegado'		   #print 'NO existe'
+    if ID_1 != -1 :	                                    return ID_1, 'Access granted-E'#print 'Entrada'
+    #if ID_1 != -1 and  N_veri == 2:					return ID_1, 'Access granted-S'#print 'Salida'
+
+    return ID_1, 'Denegado'		   #print 'NO existe'

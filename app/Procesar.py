@@ -39,6 +39,7 @@ Leer                    = lib.Control_Archivos.Leer
 Escrivir_Archivo        = lib.Control_Archivos.Escrivir_Archivo
 Verificar_PIN           = lib.Control_Archivos.Verificar_PIN
 PIN_Usado               = lib.Control_Archivos.PIN_Usado
+Estado_Usuario_Tipo_3   = lib.Control_Archivos.Estado_Usuario_Tipo_3
 
 
 Tiempo                  = lib.Control_Fecha.T_Actual
@@ -426,6 +427,10 @@ def Respuesta_Sin_Internet(QR_RUT, T_A,  IDQ_Encrip, QR):
         if PP_Mensajes:
             print puntos
 
+
+
+
+
         if puntos == 1:
             IDQ_Encrip, Resp = Estado_Usuario(IDQ_Encrip,1)
             if PP_Mensajes:
@@ -485,6 +490,54 @@ def Respuesta_Sin_Internet(QR_RUT, T_A,  IDQ_Encrip, QR):
                         print 'Permitir salida'
                     Decision_Torniquete (Resp,QR,"",T_A,'1','1')
             """
+        elif puntos == 4:
+
+            #print 'QR:'+ QR
+            SQR = QR.split('.')
+            #print SQR[0]
+            #print SQR[1]
+            #print SQR[1]
+            ID =  SQR[1] + '.' + SQR[2]
+            print 'Tipo 3 QR:'
+            print 'ID:'+ ID
+            T_inicio = int(SQR[4])
+            inicio = str(T_inicio)
+            #fin = str(int(SQR[3]))
+            print 'T inicio:' + inicio
+            print 'T Actual: ', str(T_A)
+
+            #quemar 60 minutos   3600 segundos
+
+            if T_A > T_inicio :
+                print 'Ya paso'
+                Resta = (int(T_A) -int(SQR[4]))/1000
+                if Resta >=3600 :
+                    print 'vencido'
+                    Decision_Torniquete ('Denegar',QR,"",T_A,'1','1')
+                else:
+                    print 'a tiempo'
+                    IDQ_Encrip, Resp = Estado_Usuario_Tipo_3(ID,1)
+                    if PP_Mensajes:
+                        print '-----Formato 3: resolviendo respuesta '
+                        print 'Resp:'+ Resp
+
+                    Decision_Torniquete (Resp,QR,"",T_A,'1','1')
+            else:
+                #print 'futuro'
+                Decision_Torniquete ('Denegar',QR,"",T_A,'1','1')
+
+                #print 'Resta tiempo segundos:' + str(Resta)
+                #print 'Resta tiempo minutos:' + str(Resta/60)
+                #print 'Resta tiempo horas:' + str((Resta/60)/60)
+
+                #print 'T inicio:' + str(datetime.datetime.fromtimestamp(int(float(inicio)/1000)))
+
+
+
+
+            #Decision_Torniquete (Resp,QR,"",T_A,'1','1')
+
+
         else:
                 #---- mantener formato anterios
                 #IDQ_Encrip, Resp = Estado_Usuario(IDQ_Encrip,1)

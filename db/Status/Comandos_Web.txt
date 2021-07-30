@@ -1,1 +1,1 @@
-R.Valores_de_fabrica
+T.T:5.D:Izquierda
