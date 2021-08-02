@@ -534,11 +534,12 @@ def Verificar_ID_Tipo_3(Pal): #mejorar por que podia pasa cualquiera
 def Estado_Usuario_Tipo_3(Pal,P_I):
 
     ID_1 = Verificar_ID_Tipo_3(Pal)
-    #N_veri = Verificar_acceso(ID_1) # cambiar para acesoss multiples
+    N_veri = Verificar_acceso_Tipo_3(Pal) # cambiar para acesoss multiples
     #print 'ID: '
     #print ID_1
-    #print 'Veces: '
-    #print N_veri
+    print 'Veces: '
+    print N_veri
+
     """
     if N_veri != 0:
         if N_veri % 2 == 0	:	N_veri = 1 # Entrar
@@ -550,7 +551,25 @@ def Estado_Usuario_Tipo_3(Pal,P_I):
     """
 
     #if ID_1 == -1 and  N_veri == 0:					return ID_1, 'Denegado'		   #print 'NO existe'
-    if ID_1 != -1 :	                                    return ID_1, 'Access granted-E'#print 'Entrada'
+    if ID_1 != -1  and  N_veri == 0:     return ID_1, 'Access granted-E'#print 'Entrada'
     #if ID_1 != -1 and  N_veri == 2:					return ID_1, 'Access granted-S'#print 'Salida'
 
     return ID_1, 'Denegado'		   #print 'NO existe'
+
+
+def Verificar_acceso_Tipo_3(ID1): #mejorar por que podia pasa cualquiera
+    global	N_A_Lector
+    Contador=0
+    archivo = open(N_A_Lector, 'r')
+    archivo.seek(0)
+    for linea in archivo.readlines():
+        s=linea.rstrip('\n')
+        s=s.rstrip('\r')
+        s2 =s.split(".")
+        ID2 = s2[1] + '.'+s2[2]
+        #print 'ID: '+ ID2
+        #print ID2
+        if 	ID2 ==	ID1:
+            Contador +=1
+    archivo.close()
+    return Contador
