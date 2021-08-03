@@ -497,7 +497,9 @@ def Respuesta_Sin_Internet(QR_RUT, T_A,  IDQ_Encrip, QR):
             #print SQR[0]
             #print SQR[1]
             #print SQR[1]
-            ID =  SQR[1] + '.' + SQR[2]
+            #ID =  SQR[1] + '.' + SQR[2]
+            ID =  SQR[1] + '.' + SQR[2]+ '.' + SQR[3]
+
             print 'Tipo 3 QR:'
             print 'ID:'+ ID
             T_inicio = int(SQR[4])

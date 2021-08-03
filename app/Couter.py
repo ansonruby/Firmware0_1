@@ -62,7 +62,7 @@ def add_user_counter(usuario):
     #print s[4]
     #print IDPrueba
     #ID='12dsad'
-    ID = s[1] + '.' + s[2]
+    ID = s[1] + '.' + s[2] + '.' + s[3]
 
     Respuesta = Verificar_ID_Tipo_3(ID)
     #print Respuesta

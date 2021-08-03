@@ -537,8 +537,8 @@ def Estado_Usuario_Tipo_3(Pal,P_I):
     N_veri = Verificar_acceso_Tipo_3(Pal) # cambiar para acesoss multiples
     #print 'ID: '
     #print ID_1
-    print 'Veces: '
-    print N_veri
+    #print 'Veces: '
+    #print N_veri
 
     """
     if N_veri != 0:
@@ -566,7 +566,7 @@ def Verificar_acceso_Tipo_3(ID1): #mejorar por que podia pasa cualquiera
         s=linea.rstrip('\n')
         s=s.rstrip('\r')
         s2 =s.split(".")
-        ID2 = s2[1] + '.'+s2[2]
+        ID2 = s2[1] + '.'+ s2[2]  + '.'+ s2[3]
         #print 'ID: '+ ID2
         #print ID2
         if 	ID2 ==	ID1:
