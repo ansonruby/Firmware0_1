@@ -152,7 +152,7 @@ def Intentos_Actualizar_Usuarios(Cantidad):
         else:
             if PP_Mensajes:
                 print 'NO actualizo'
-    Generar_PIN(Cantidad_Pines)
+    #Generar_PIN(Cantidad_Pines)
     Cambio_Estado_Led('6')
 
 
@@ -284,7 +284,7 @@ def Actualizar_Usuarios(Hora_Actualizacion):
             #Generar_PIN(4)
         elif Hora() == Hora_Actualizacion and E_Actualizacion == 0:
             Procedimiento_Actualizar_Usuarios()
-            Generar_PIN(Cantidad_Pines)
+            #Generar_PIN(Cantidad_Pines)
             Borrar(27)
 
         if Hora() != Hora_Actualizacion and A_Actualizacion==0:
@@ -357,7 +357,7 @@ def Decision_Torniquete (Res, QR, ID2, Ti,Qr_Te, I_N_S ):
         Escrivir(Co+Ti+'.'+Qr_Te+'.0.'+I_N_S)               #guardar un registro
         Escrivir_Archivo(Co+Ti+'.'+Qr_Te+'.0.'+I_N_S, 22)   #Para dispotivos asociados
 
-        if Qr_Te == '2':        Escrivir_Archivo(Co+Ti+'.'+Qr_Te+'.0.'+I_N_S, 27)   #escrivir pin usado
+        if Qr_Te == '2':    Escrivir_Archivo(Co+Ti+'.'+Qr_Te+'.0.'+I_N_S, 27)   #escrivir pin usado
         if I_N_S == '1':	Escrivir_Enviar(Co+Ti+'.'+Qr_Te+'.0.'+I_N_S)
 
         Cambio_Estado_Led('0')  #volver a estado de inicio
@@ -381,7 +381,7 @@ def Decision_Torniquete (Res, QR, ID2, Ti,Qr_Te, I_N_S ):
         Escrivir(Co+Ti+'.'+Qr_Te+'.1.'+I_N_S)               #guardar un registro
         Escrivir_Archivo(Co+Ti+'.'+Qr_Te+'.1.'+I_N_S, 22)   #Para dispotivos asociados
 
-        if Qr_Te == '2':        Escrivir_Archivo(Co+Ti+'.'+Qr_Te+'.1.'+I_N_S, 27)   #escrivir pin usado
+        if Qr_Te == '2':    Escrivir_Archivo(Co+Ti+'.'+Qr_Te+'.1.'+I_N_S, 27)   #escrivir pin usado
         if I_N_S == '1':	Escrivir_Enviar(Co+Ti+'.'+Qr_Te+'.1.'+I_N_S)
 
         Cambio_Estado_Led('0')  #volver a estado de inicio
@@ -500,24 +500,24 @@ def Respuesta_Sin_Internet(QR_RUT, T_A,  IDQ_Encrip, QR):
             #ID =  SQR[1] + '.' + SQR[2]
             ID =  SQR[1] + '.' + SQR[2]+ '.' + SQR[3]
 
-            print 'Tipo 3 QR:'
-            print 'ID:'+ ID
+            #print 'Tipo 3 QR:'
+            #print 'ID:'+ ID
             T_inicio = int(SQR[4])
             inicio = str(T_inicio)
             #fin = str(int(SQR[3]))
-            print 'T inicio:' + inicio
-            print 'T Actual: ', str(T_A)
+            #print 'T inicio:' + inicio
+            #print 'T Actual: ', str(T_A)
 
             #quemar 60 minutos   3600 segundos
 
             if T_A > T_inicio :
-                print 'Ya paso'
+                #print 'Ya paso'
                 Resta = (int(T_A) -int(SQR[4]))/1000
                 if Resta >=3600 :
-                    print 'vencido'
+                    #print 'vencido'
                     Decision_Torniquete ('Denegar',QR,"",T_A,'1','1')
                 else:
-                    print 'a tiempo'
+                    #print 'a tiempo'
                     IDQ_Encrip, Resp = Estado_Usuario_Tipo_3(ID,1)
                     if PP_Mensajes:
                         print '-----Formato 3: resolviendo respuesta '
@@ -1017,9 +1017,9 @@ while 1:
     #---------------------------------------------------------
     # Proceso 3: Procesamiento del PIN
     #---------------------------------------------------------
-    if Leer_Estado(4) == '1':   # Hay un RUT sin procesar
-        Decision('PIN')
-        Borrar(4)               #final del proceso
+    #if Leer_Estado(4) == '1':   # Hay un RUT sin procesar
+    #    Decision('PIN')
+    #    Borrar(4)               #final del proceso
 
     #---------------------------------------------------------
     # Proceso 3: Procesamiento del Rut
