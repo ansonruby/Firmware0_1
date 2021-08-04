@@ -15,6 +15,7 @@ Salir                   = lib.Control_Torniquete.Salir
 Leer_Estado             = lib.Control_Archivos.Leer_Estado
 Escrivir_Estados        = lib.Control_Archivos.Escrivir_Estados
 Escrivir_Archivo        = lib.Control_Archivos.Escrivir_Archivo
+Verificar_aforo         = lib.Control_Archivos.Verificar_aforo
 
 
 
@@ -77,17 +78,19 @@ def Proceso_Salir_Por_Boton():
 
     tiempo_actual = str(int(time.time()*1000.0))
     dato = '.' + tiempo_actual + '.4.1.1'
-    print dato
+    #print dato
     #activasion de salida Direc_Torniquete
     if Leer_Estado(13) == 'D':
         Cambio_Estado_Led('3')
-        Escrivir_Archivo(dato,1)
-        Escrivir_Archivo(dato,2)
+        if Verificar_aforo() >0:
+            Escrivir_Archivo(dato,1)
+            Escrivir_Archivo(dato,2)
         Entrar()
     else :
         Cambio_Estado_Led('4')
-        Escrivir_Archivo(dato,1)
-        Escrivir_Archivo(dato,2)
+        if Verificar_aforo() >0:
+            Escrivir_Archivo(dato,1)
+            Escrivir_Archivo(dato,2)
         Salir()
 
     Cambio_Estado_Led('0')  #volver a estado de inicio
