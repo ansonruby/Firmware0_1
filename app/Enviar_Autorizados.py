@@ -59,7 +59,7 @@ def Enviar_usuarios_Autorizados_Sin_Internet():
             print Ev
         T_A = Tiempo()
         ta=Envio(Ev,T_A,3)
-
+        #print ta
         if ta.find("Error") == -1:
             #print ta
 
@@ -131,7 +131,7 @@ def Proceso_envio_Usuarios():
 
 
 
-
+Enviar_usuarios_Autorizados_Sin_Internet()
 
 """
 Tiempo_activacion = Time_add_seg(T_Ventana)
